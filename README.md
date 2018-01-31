@@ -6,4 +6,4 @@ Målet är att likna en webshop, även om det såklart saknas en del funktioner.
 
 https://github.com/EmilKarlsson91/webshop-webservice
 
-https://github.com/EmilKarlsson91/Webshop-classes
+https://github.com/EmilKarlsson91/webshop-classes
