@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Awesomestore</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+	crossorigin="anonymous" />
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+    <body>
+		<div th:replace="~{fragments/header :: header}"></div>
+    	<div class="container">
+				<div sec:authorize="isAnonymous()">
+					<div class="row">
+						<div class="col-md-3">
+							<h4>Sign in:</h4>
+						</div>
+						<div class="col-md-3">
+							<h4>Not a member? Register now!</h4>
+						</div>
+					</div>	
+					<br>
+		    		<div class="row">
+						<div class="col-md-3">
+							<div th:if="${param.error}">
+				            	Invalid username and password.
+				        	</div>
+				        	<div th:if="${param.logout}">
+				            	You have been logged out.
+				        	</div>
+				        	<form th:action="@{/login}" method="post">
+				            	<div><label> Username : <input type="text" name="username"/> </label></div>
+				            	<div><label> Password : <input type="password" name="password"/> </label></div>
+				            	<div><input type="submit" value="Sign In"/></div>
+				        	</form> 
+						</div>
+			        	<div  class="col-md-3">
+			        		<form th:action="@{/register/user}" method="post" th:object="${UserDTO}">
+								<div><label> Username : <input type="text" name="username"/> </label></div>
+				            	<div><label> Password : <input type="password" name="password"/> </label></div>
+				            	<div><label> Last name : <input type="text" name="lastName"/> </label></div>
+								<input type="submit" value="Register" />
+							</form>	
+			        	</div>
+		    		</div>
+				</div>
+				<div  sec:authorize="isAuthenticated()">
+					<div class="row">
+						<div class="col-md-3">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Sign Out" />
+							</form>
+						</div>				
+						<div class="col-md-3"  sec:authorize="hasRole('ROLE_ADMIN')">
+				       		<form th:action="@{/admin}" method="get">
+								<input type="submit" value="Admin page" />
+							</form>	
+	        			</div>
+	        			<div class="col-md-3"  sec:authorize="hasRole('ROLE_USER')">
+				       		<form th:action="@{/order-username}" method="get">
+				       			<input type="hidden" th:value="${#httpServletRequest.remoteUser}" th:attr="name=username"/>		  					
+								<input type="submit" value="Your orders" />
+							</form>	
+	        			</div>
+					</div>
+				</div>
+				<div th:replace="~{fragments/articles-list :: articles}"></div>
+    		</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+		integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+		integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+		crossorigin="anonymous"></script>
+        
+    </body>
+</html>
+

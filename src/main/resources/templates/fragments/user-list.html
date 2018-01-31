@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Users</title>
+</head>
+<body>
+	<div th:fragment="users">
+			<div class="container">
+			<br>
+			<h4>View all registered users</h4>
+			<br>
+			<div class="row" th:if="${not #lists.isEmpty(list)}">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Username</th>
+							<th scope="col">Last name</th>
+							<th scope="col">User role</th>
+							<th scope="col">Is enabled</th>
+						</tr>
+					</thead>
+					<tbody th:each="item : ${list}">
+						<tr>
+							<td th:text="${item.username}"></td>
+							<td th:text="${item.lastName}"></td>
+							<td th:text="${item.role}"></td>
+							<td th:text="${item.enabled}"></td>
+							<th>
+								<form th:action="@{/delete/user/}" method="post" th:object="${UserDTO}">
+								    <input type="hidden" th:value="${item.username}" th:attr="name='username'"/>
+									<input type="submit" value="Delete" />
+								</form>
+							</th>
+							<th>
+								<form th:action="@{/edit/user/}" method="post" th:object="${UserDTO}">
+									<input type="hidden" th:value="${item.username}" th:attr="name='oldName'"/>
+									<input type="hidden" th:value="${item.lastName}" th:attr="name='oldLastName'"/>
+									<input type="hidden" th:value="${item.role}" th:attr="name='oldRole'"/>
+									<input type="hidden" th:value="${item.password}" th:attr="name='oldPassword'"/>
+									
+									<div><label> Edit Username : <input type="text" name="username"/> </label></div>
+		            				<div><label> Edit Password : <input type="password" name="password"/> </label></div>
+		            				<div><label> Edit Last name : <input type="text" name="lastName"/> </label></div>
+		            				<div><label> Edit Role : <select name="role">
+																<option value="ROLE_USER" selected>User</option>
+																<option value="ROLE_ADMIN">Admin</option>
+															</select> </label></div>
+		            				<div><label> Is Enabled : <input type="checkbox" name="enabled" checked="checked"/></label></div>
+									<input type="submit" value="Edit" />
+								</form>
+								<br>
+								<form th:action="@{/order-username}" method="get">
+					       			<input type="hidden" th:value="${item.username}" th:attr="name=username"/>		  					
+									<input type="submit" value="Orders" />
+								</form>
+								<br>
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

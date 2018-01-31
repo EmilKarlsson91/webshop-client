@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="header" class="jumbotron text-center">
+		<h1>Awesomestore</h1> 
+		<h4>Please spend as much money as you possibly can!</h4>
+		<div sec:authorize="hasRole('ROLE_USER')">
+			<form th:action="@{/view-cart}" method="post">
+				<input type="hidden" th:value="${#httpServletRequest.remoteUser}" th:attr="name=username"/>		
+				<input type="submit" value="Shopping cart" />
+			</form>		
+		</div>
+
+		<style>
+			.jumbotron { 
+    		background-color: #141f1f; /* Orange */
+    		color: #ffffff;
+		}
+		</style>	
+	</div>
+  </body>
+</html>
